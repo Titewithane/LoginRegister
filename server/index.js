@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const userRoutes = require("./routes/users");
 
 mongoose.connect("mongodb://127.0.0.1:27017/LoginRegister");
 mongoose.connection.on(
@@ -18,14 +19,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    msg: "hello world",
-  });
-});
+app.use("/", userRoutes);
 
-app.post("/register", (req, res) => {
-  const { username, password, rePassword } = req.body;
+app.get("*", (req, res) => {
+  res.status(404).json({
+    msg: "error",
+  });
 });
 
 app.listen(5000, () => {
