@@ -3,7 +3,7 @@ const saltRounds = 10;
 const User = require("../models/user");
 
 module.exports.register = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, rePassword } = req.body;
   console.log(username, password);
   const isUsed = await User.findOne({ username: `${username}` });
   if (isUsed) {

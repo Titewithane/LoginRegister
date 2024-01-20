@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import "./style/Register.css";
+import { Form } from "react-router-dom";
 
 function Register() {
   const [FormData, setFormData] = useState({
@@ -6,7 +8,33 @@ function Register() {
     password: "",
     rePassword: "",
   });
-  const [msg, setMsg] = useState("");
+  const [validateMsg, setValidateMsg] = useState("");
+  const [isValidated, setIsValidated] = useState(true);
+
+  useEffect(() => {
+    if (FormData.username.length === 0) {
+      setValidateMsg("Username cannot be empty");
+      setIsValidated(false);
+      if (FormData.username.length < 5) {
+        setValidateMsg("Username cannot be less than 5");
+        setIsValidated(false);
+      } else {
+        setValidateMsg("Looks Good!");
+        setIsValidated(true);
+      }
+    } else {
+      if (
+        FormData.password !== FormData.rePassword ||
+        FormData.password.length === 0
+      ) {
+        setValidateMsg("Password doesn't match");
+        setIsValidated(false);
+      } else {
+        setValidateMsg("Looks Good!");
+        setIsValidated(true);
+      }
+    }
+  }, [FormData]);
 
   const handleChange = (evt) => {
     console.log("change");
@@ -19,8 +47,6 @@ function Register() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    FormData.password === FormData.rePassword && evt.consume();
-
     fetch("http://localhost:5000/register", {
       method: "POST",
       mode: "cors", // for fetch data from others domain
@@ -31,20 +57,28 @@ function Register() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setMsg(data.msg);
-        data.msg === "Username is already used." &&
+        if (data.msg === "Username is already used.") {
           setFormData({
             username: "",
             password: "",
             rePassword: "",
           });
+        } else if (data.msg === "Username's length fail.") {
+          setFormData((curr) => {
+            return { ...curr, username: "" };
+          });
+        } else if (data.msg === "Somethings went wrong.") {
+          setFormData({
+            password: "",
+            rePassword: "",
+          });
+        }
       });
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>register</h1>
-      {msg === "Username is already used." ? <h1>fail</h1> : <h1>success</h1>}
       <form onSubmit={handleSubmit}>
         <div className="username">
           <input
@@ -69,6 +103,9 @@ function Register() {
             id=""
             onChange={handleChange}
           />
+        </div>
+        <div className="validate">
+          <span>{validateMsg}</span>
         </div>
         <button type="submit">Register</button>
       </form>
