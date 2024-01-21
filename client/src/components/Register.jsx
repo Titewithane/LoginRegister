@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import "./style/Register.css";
-import { Form } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const [count, setCount] = useState(0);
   const [FormData, setFormData] = useState({
     username: "",
     password: "",
@@ -10,23 +11,23 @@ function Register() {
   });
   const [validateMsg, setValidateMsg] = useState("");
   const [isValidated, setIsValidated] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (FormData.username.length === 0) {
       setValidateMsg("Username cannot be empty");
       setIsValidated(false);
+    } else {
       if (FormData.username.length < 5) {
         setValidateMsg("Username cannot be less than 5");
         setIsValidated(false);
-      } else {
-        setValidateMsg("Looks Good!");
-        setIsValidated(true);
-      }
-    } else {
-      if (
-        FormData.password !== FormData.rePassword ||
-        FormData.password.length === 0
-      ) {
+      } else if (FormData.password.length === 0) {
+        setValidateMsg("Please fill in the password");
+        setIsValidated(false);
+      } else if (FormData.password.length < 5) {
+        setValidateMsg("Password cannot be less than 5");
+        setIsValidated(false);
+      } else if (FormData.password !== FormData.rePassword) {
         setValidateMsg("Password doesn't match");
         setIsValidated(false);
       } else {
@@ -37,7 +38,7 @@ function Register() {
   }, [FormData]);
 
   const handleChange = (evt) => {
-    console.log("change");
+    count == 0 && setCount((val) => (val = val + 1));
     const changeField = evt.target.name;
     const newValue = evt.target.value;
     setFormData((curr) => {
@@ -47,33 +48,38 @@ function Register() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    fetch("http://localhost:5000/register", {
-      method: "POST",
-      mode: "cors", // for fetch data from others domain
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(FormData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.msg === "Username is already used.") {
-          setFormData({
-            username: "",
-            password: "",
-            rePassword: "",
-          });
-        } else if (data.msg === "Username's length fail.") {
-          setFormData((curr) => {
-            return { ...curr, username: "" };
-          });
-        } else if (data.msg === "Somethings went wrong.") {
-          setFormData({
-            password: "",
-            rePassword: "",
-          });
-        }
-      });
+    if (isValidated) {
+      evt.consume();
+    } else {
+      fetch("http://localhost:5000/register", {
+        method: "POST",
+        mode: "cors", // for fetch data from others domain
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(FormData),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.msg === "Username is already used.") {
+            setFormData({
+              username: "",
+              password: "",
+              rePassword: "",
+            });
+          } else if (data.msg === "Username's length fail.") {
+            setFormData((curr) => {
+              return { ...curr, username: "" };
+            });
+          } else if (data.msg === "Somethings went wrong.") {
+            setFormData({
+              password: "",
+              rePassword: "",
+            });
+          }
+        });
+      navigate("/", { replace: true }); //! if replace is false our web can go back if it's true cannot go back anymore
+    }
   };
 
   return (
@@ -105,7 +111,7 @@ function Register() {
           />
         </div>
         <div className="validate">
-          <span>{validateMsg}</span>
+          {count > 0 && <span>{validateMsg}</span>}
         </div>
         <button type="submit">Register</button>
       </form>
