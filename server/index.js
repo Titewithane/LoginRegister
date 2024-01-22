@@ -19,6 +19,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.json({
+    msg: "hello world",
+  });
+});
+
 app.use("/", userRoutes);
 
 app.get("*", (req, res) => {

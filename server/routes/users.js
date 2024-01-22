@@ -5,4 +5,6 @@ const { validateRegister } = require("../utils/middleware");
 
 router.post("/register", validateRegister, users.register);
 
+router.post("/login", users.login);
+
 module.exports = router;

@@ -1,20 +1,42 @@
 import { useState, useEffect } from "react";
 import "./style/Login.css";
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
   const [FormData, setFormData] = useState({
     username: "",
     password: "",
   });
+  const [isError, setIsError] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     console.log("You has submitted");
+    fetch("http://localhost:5000/login", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(FormData),
+    })
+      .then((res) => res.json()) //res.json() return object
+      .then((data) => {
+        console.log(data.msg);
+        if (data.msg === "success") {
+          navigate("/", { replace: true });
+        } else if (data.msg === "fail") {
+          setIsError(true);
+          setFormData({ username: "", password: "" });
+        }
+      });
   };
 
   const handleChange = (evt) => {
     const changeField = evt.target.name;
     const newValue = evt.target.value;
-    setForm((curr) => {
+    setFormData((curr) => {
       return { ...curr, [changeField]: newValue };
     });
   };
@@ -24,17 +46,31 @@ export default function Login() {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div className="username">
-          <input type="text" name="username" id="" onChange={handleChange} />
+          <input
+            key="username"
+            type="text"
+            name="username"
+            id="username"
+            onChange={handleChange}
+            value={FormData.username}
+          />
         </div>
         <div className="password">
           <input
+            key={"password"}
             type="password"
             name="password"
-            id=""
+            id="password"
             onChange={handleChange}
+            value={FormData.password}
           />
         </div>
-        <button type="submit">Login</button>
+        {isError && (
+          <div className="error">
+            <span>Something went wrong</span>
+          </div>
+        )}
+        <button>Login</button>
       </form>
     </div>
   );

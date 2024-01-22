@@ -47,9 +47,8 @@ function Register() {
   };
 
   const handleSubmit = (evt) => {
-    evt.preventDefault();
-    if (isValidated) {
-      evt.consume();
+    if (!isValidated) {
+      evt.preventDefault();
     } else {
       fetch("http://localhost:5000/register", {
         method: "POST",
@@ -61,7 +60,8 @@ function Register() {
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.msg === "Username is already used.") {
+          console.log(FormData);
+          if (data.msg === "fail") {
             setFormData({
               username: "",
               password: "",
@@ -76,10 +76,12 @@ function Register() {
               password: "",
               rePassword: "",
             });
+          } else {
+            navigate("/", { replace: true }); //! if replace is false our web can go back if it's true cannot go back anymore
           }
         });
-      navigate("/", { replace: true }); //! if replace is false our web can go back if it's true cannot go back anymore
     }
+    evt.preventDefault();
   };
 
   return (
@@ -92,6 +94,7 @@ function Register() {
             name="username"
             placeholder=""
             onChange={handleChange}
+            value={FormData.username}
           />
         </div>
         <div className="password">
@@ -100,6 +103,7 @@ function Register() {
             name="password"
             id=""
             onChange={handleChange}
+            value={FormData.password}
           />
         </div>
         <div className="rePassword">
@@ -108,6 +112,7 @@ function Register() {
             name="rePassword"
             id=""
             onChange={handleChange}
+            value={FormData.rePassword}
           />
         </div>
         <div className="validate">

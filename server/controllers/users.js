@@ -4,20 +4,40 @@ const User = require("../models/user");
 
 module.exports.register = async (req, res) => {
   const { username, password, rePassword } = req.body;
-  console.log(username, password);
   const isUsed = await User.findOne({ username: `${username}` });
   if (isUsed) {
     res.json({
-      msg: "Username is already used.",
+      msg: "fail",
     });
   } else {
     bcrypt.hash(password, saltRounds, async (err, hash) => {
       const newUser = new User({ username: `${username}`, password: hash });
       await newUser.save();
-      console.log(newUser);
     });
     res.json({
-      msg: "User's account has been created.",
+      msg: "success",
     });
+  }
+};
+
+module.exports.login = async (req, res) => {
+  console.log(req.body);
+  const { username, password } = req.body;
+  const user = await User.findOne({ username: `${username}` }).exec(); // exec() make query return as object
+  if (user.username === "" || password === "") {
+    res.json({
+      msg: "fail",
+    });
+  } else {
+    const result = await bcrypt.compare(password, user.password);
+    if (result) {
+      res.json({
+        msg: "success",
+      });
+    } else {
+      res.json({
+        msg: "fail",
+      });
+    }
   }
 };
