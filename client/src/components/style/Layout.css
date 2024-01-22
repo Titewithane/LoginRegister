@@ -36,6 +36,7 @@
 .link a span:hover {
   border-bottom: 2px solid white;
   transition: 50ms;
+  box-shadow: ;
 }
 
 /* .link a: span {
