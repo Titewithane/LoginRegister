@@ -1,4 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 * {
+  font-family: "Roboto", sans-serif;
   margin: 0;
   box-sizing: border-box;
 }
@@ -6,10 +8,11 @@
 .Layout {
   position: relative;
   min-height: 100dvh;
+  /* height: 100dvh; */
 }
 
 .navbar {
-  background-color: black;
+  background-color: hsla(0, 0%, 0%, 0.85);
   width: 100dvw;
   display: flex;
   flex-direction: row;
@@ -25,7 +28,7 @@
   text-decoration: none;
   color: white;
   /* background-color: red; */
-  padding: 1rem;
+  padding: 1.125dvh;
 }
 .link a span {
   margin: 0 1.5rem 0 1.5rem;
@@ -36,9 +39,4 @@
 .link a span:hover {
   border-bottom: 2px solid white;
   transition: 50ms;
-  box-shadow: ;
 }
-
-/* .link a: span {
-
-} */

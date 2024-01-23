@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const session = require("express-session");
+
 const userRoutes = require("./routes/users");
 
 mongoose.connect("mongodb://127.0.0.1:27017/LoginRegister");
@@ -18,6 +20,15 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+
+const sessionConfig = {
+  name: "session",
+  secret: "secret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {},
+};
+app.use(session(sessionConfig));
 
 app.get("/", (req, res) => {
   res.json({

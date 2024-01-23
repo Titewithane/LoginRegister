@@ -118,7 +118,9 @@ function Register() {
         <div className="validate">
           {count > 0 && <span>{validateMsg}</span>}
         </div>
-        <button type="submit">Register</button>
+        <div className="btn">
+          <button type="submit">Register</button>
+        </div>
       </form>
     </div>
   );

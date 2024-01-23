@@ -14,8 +14,10 @@ module.exports.register = async (req, res) => {
       const newUser = new User({ username: `${username}`, password: hash });
       await newUser.save();
     });
+    req.session.isLogin = true;
     res.json({
       msg: "success",
+      isLogin: req.session.isLogin,
     });
   }
 };

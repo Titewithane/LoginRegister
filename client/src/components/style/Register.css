@@ -1,7 +1,26 @@
 .container {
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 15rem;
+  background-color: blue;
+  /* margin-top: 10rem; */
+  height: 50dvh;
+  top: 0;
+  right: 0;
+}
+
+.container form div {
+  margin: 2em;
+}
+
+.container form div input {
+  width: 15dvw;
+  height: 4dvh;
+  border: none;
+}
+
+.btn {
+  text-align: center;
 }
