@@ -13,7 +13,7 @@ export default function Login() {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     console.log("You has submitted");
-    fetch("http://localhost:5000/login", {
+    fetch("http://localhost:5000/auth/login", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -24,11 +24,12 @@ export default function Login() {
       .then((res) => res.json()) //res.json() return object
       .then((data) => {
         console.log(data.msg);
-        if (data.msg === "success") {
-          navigate("/", { replace: true });
-        } else if (data.msg === "fail") {
+        if (data.msg === "fail") {
           setIsError(true);
           setFormData({ username: "", password: "" });
+        } else {
+          navigate("/", { replace: true });
+          console.log(data);
         }
       });
   };

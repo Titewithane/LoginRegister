@@ -50,7 +50,7 @@ function Register() {
     if (!isValidated) {
       evt.preventDefault();
     } else {
-      fetch("http://localhost:5000/register", {
+      fetch("http://localhost:5000/auth/register", {
         method: "POST",
         mode: "cors", // for fetch data from others domain
         headers: {
