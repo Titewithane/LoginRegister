@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./style/Login.css";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [FormData, setFormData] = useState({
@@ -23,13 +23,14 @@ export default function Login() {
     })
       .then((res) => res.json()) //res.json() return object
       .then((data) => {
-        console.log(data.msg);
         if (data.msg === "fail") {
           setIsError(true);
           setFormData({ username: "", password: "" });
         } else {
-          navigate("/", { replace: true });
-          console.log(data);
+          navigate("/", {
+            replace: true,
+            state: { token: data.token },
+          });
         }
       });
   };

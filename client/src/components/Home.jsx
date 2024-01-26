@@ -1,24 +1,14 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "./style/Home.css";
 
 function Home() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const userFetcher = async () => {
-      const fetchOptions = {
-        method: "GET",
-        mode: "cors",
-      };
-      const res = await fetch("http://localhost:5000/product");
-      const data = res.json();
-      consol.log(data);
-    };
-  }, []);
-
+  const location = useLocation();
+  const token = location.state.token;
   return (
     <div className="home">
       <h1></h1>
+      <h2>Home</h2>
     </div>
   );
 }

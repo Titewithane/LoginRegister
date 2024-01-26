@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import Home from "./components/Home";
 import Layout from "./components/Layout";
 import Register from "./components/Register";
