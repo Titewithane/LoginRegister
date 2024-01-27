@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 module.exports.validateRegister = (req, res, next) => {
   const { username, password, rePassword } = req.body;
   if (username.length > 0 && username.length <= 8) {
@@ -21,10 +22,13 @@ module.exports.verifyToken = (req, res, next) => {
     res.status(401).json({ error: "Access denied" });
   }
   try {
-    const decode = jwt.verify(token, "thisshouldbebetterthatthis");
-    req.userId = decode.userId;
+    const decoded = jwt.verify(token, "9yoahvofN");
+    res.json({
+      decoded,
+    });
     next();
   } catch (error) {
+    console.log(error);
     res.status(401).json({ error: "Invalid token" });
   }
 };

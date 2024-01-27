@@ -27,9 +27,10 @@ export default function Login() {
           setIsError(true);
           setFormData({ username: "", password: "" });
         } else {
+          localStorage.setItem("jwt", data.token);
           navigate("/", {
             replace: true,
-            state: { token: data.token },
+            // state: { token: data.token }, //! this statement is where we pass props
           });
         }
       });
