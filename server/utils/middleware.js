@@ -17,18 +17,15 @@ module.exports.validateRegister = (req, res, next) => {
 };
 
 module.exports.verifyToken = (req, res, next) => {
-  const token = req.header("Authorization");
-  if (!token) {
-    res.status(401).json({ error: "Access denied" });
-  }
   try {
+    const token = req.headers.authorization.split(" ")[1];
+    if (!token) {
+      res.status(401).json({ error: "Access denied" });
+    }
     const decoded = jwt.verify(token, "9yoahvofN");
-    res.json({
-      decoded,
-    });
+    req.decoded = decoded;
     next();
   } catch (error) {
-    console.log(error);
     res.status(401).json({ error: "Invalid token" });
   }
 };

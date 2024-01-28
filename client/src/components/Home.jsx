@@ -1,24 +1,40 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./style/Home.css";
+import axios from "axios";
 
 function Home() {
   // const location = useLocation();
   // const token = location.state ? location.state.token : null;
-  const token = localStorage.getItem("jwt");
+  const [token, setToken] = useState(localStorage.getItem("jwt"));
+  useEffect(() => {
+    const isTokenExpired = () => {};
+  }, [token]);
 
-  const handleSubmit = (evt) => {
-    fetch("http://localhost:5000/product", {
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
+  const handleSubmit = async (evt) => {
+    //!==========================================
+    //! use fetch to send req to API
+    //!==========================================
+    // fetch("http://localhost:5000/product", {
+    // method: "GET",
+    // mode: "cors", //* It isn't necessary
+    // credentials: "include", //* It is not necessary
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data))
+    //   .catch((err) => console.log(err));
+    //*============================================
+    //* use axios to send req to API
+    //*============================================
+    const res = await axios.get("http://localhost:5000/product", {
       headers: {
-        Authorization: `Bearer <${token}>`,
+        Authorization: `Bearer ${token}`,
       },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+    });
+    console.log(res.data);
   };
 
   return (
