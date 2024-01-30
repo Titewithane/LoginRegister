@@ -16,7 +16,6 @@ module.exports.register = async (req, res) => {
         const newUser = new User({ username: `${username}`, password: hash });
         await newUser.save();
       });
-      req.session.isLogin = true;
       res.json({
         msg: "success",
         isLogin: req.session.isLogin,
@@ -32,23 +31,29 @@ module.exports.login = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username: `${username}` }).exec(); // exec() make query return as object
     if (user.username === "" || password === "") {
-      res.json({
+      res.status(400).json({
         msg: "fail",
       });
     } else {
       const result = await bcrypt.compare(password, user.password);
       if (result) {
-        const token = jwt.sign({ userId: user._id }, "9yoahvofN", {
-          expiresIn: "1h",
+        const accessToken = jwt.sign({ userId: user._id }, "9yoahvofN", {
+          expiresIn: "20m",
         });
-        res.status(200).json({ token, msg: "success" });
+        const refreshToken = jwt.sign(
+          { userId: user._id },
+          "9yoahvofNNfovhaoy9",
+          { expiresIn: "1d" }
+        );
+
+        res.status(200).json({ accessToken, refreshToken });
       } else {
-        res.json({
-          msg: "fail",
+        res.status(401).json({
+          msg: "Unauthorized",
         });
       }
     }
   } catch (error) {
-    res.status(500).json({ error: "Login failed" });
+    res.status(400).json({ error: "Login failed" });
   }
 };

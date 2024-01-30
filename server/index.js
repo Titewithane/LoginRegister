@@ -6,6 +6,7 @@ const session = require("express-session");
 
 const userRoutes = require("./routes/users");
 const productRoutes = require("./routes/products");
+const apiRoutes = require("./routes/api");
 
 mongoose.connect("mongodb://127.0.0.1:27017/LoginRegister");
 mongoose.connection.on(
@@ -39,6 +40,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", userRoutes);
 app.use("/product", productRoutes);
+app.use("/api", apiRoutes);
 
 app.get("*", (req, res) => {
   res.status(404).json({
