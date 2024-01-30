@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./style/Login.css";
 import { Form, useNavigate } from "react-router-dom";
 import axios from "axios";
-import api from "../api";
+import api from "../utils/api";
 
 export default function Login() {
   const [FormData, setFormData] = useState({
