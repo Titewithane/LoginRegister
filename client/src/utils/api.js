@@ -26,13 +26,17 @@ api.interceptors.response.use(
       originalRequest._retry = true; //? assign value for _retry and then _retry is exists and if next time _retry is exists but we still get 400 then Promise should be reject
 
       try {
+        localStorage.removeItem("token");
         const refreshToken = localStorage.getItem("refreshToken");
         const response = await axios.post(
           "http://localhost:5000/api/refreshToken",
           refreshToken
         );
         const { token } = response.data;
+        localStorage.setItem("token", token);
       } catch (error) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         return window.location.href("/login");
       }
     }

@@ -8,7 +8,7 @@ module.exports.register = async (req, res) => {
     const { username, password, rePassword } = req.body;
     const isUsed = await User.findOne({ username: `${username}` });
     if (isUsed) {
-      res.json({
+      res.status(409).json({
         msg: "fail",
       });
     } else {
@@ -16,9 +16,8 @@ module.exports.register = async (req, res) => {
         const newUser = new User({ username: `${username}`, password: hash });
         await newUser.save();
       });
-      res.json({
+      res.status(200).json({
         msg: "success",
-        isLogin: req.session.isLogin,
       });
     }
   } catch (error) {
@@ -29,9 +28,9 @@ module.exports.register = async (req, res) => {
 module.exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ username: `${username}` }).exec(); // exec() make query return as object
+    const user = await User.findOne({ username: `${username}` }); // exec() make query return as object
     if (user.username === "" || password === "") {
-      res.status(400).json({
+      res.status(401).json({
         msg: "fail",
       });
     } else {

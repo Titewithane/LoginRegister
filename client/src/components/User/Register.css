@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+.container {
+  max-height: 100dvh;
+  max-width: 100dvw;
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.register-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100dvh;
+}
+
+.Layout {
+  position: absolute;
+  top: 0;
+}
+
+.register-container form {
+  border: 1px solid black;
+  border-radius: 5%;
+  /* box-shadow: 7px 7px hsla(0, 0%, 0%, 0.2); */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 3rem 2rem;
+  background-color: hsla(0, 0%, 50%, 0.05);
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.register-container form .label {
+  margin-bottom: 2rem;
+}
+
+.register-container form div {
+  margin: 1em;
+}
+
+.register-container form .validate {
+  margin-top: 1.5rem;
+}
+
+.register-container form div input {
+  width: 100%;
+  max-width: 16rem;
+  height: 2.5em; /* em unit relative with closet parent which is font-size */
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.validate {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: hsla(0, 100%, 50%, 0.726);
+  color: white;
+  border: 1px solid beige;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 16rem;
+  height: 5dvh;
+
+  text-align: center;
+}
+
+.btn {
+  text-align: center;
+}
+
+.btn button {
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  font-size: 17px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.btn button:hover {
+  cursor: pointer;
+}
