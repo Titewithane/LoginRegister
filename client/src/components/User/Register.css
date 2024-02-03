@@ -1,9 +1,38 @@
-@keyframes slideUp {
+/* .animate--delayDisappear {
+  animation: disappear;
+  animation-delay: 3s;
+}
+
+@keyframes disappear {
   from {
-    transform: translateY(0px);
+    display: block;
   }
   to {
-    transform: translateY(-1.5px);
+    display: none;
+  }
+} */
+
+@keyframes slideUp {
+  from {
+    transform: translateY(-0.5em);
+  }
+  to {
+    transform: translateY(-1.5em);
+    font-size: 0.8em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-20px);
+    font-size: 0.8em;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  100% {
+    transform: translateY(0px);
   }
 }
 
@@ -65,12 +94,20 @@
 
 .supUsername {
   position: absolute;
+  top: -0.35em;
+  left: -0.1em;
+  animation: slideDown 0.2s ease-out 0s 1 normal backwards;
+  /** animation : name delayBeforePlay animationDuration #iteration animationDirection */
+  font-size: 1.2em;
+}
+
+.supUsernameFocus {
+  position: absolute;
   top: 0;
   font-size: 1.2rem;
   /* transform: translateY(-1.65em); */
-  animation: slideUP 1.5s ease-in-out 1s 1 normal both;
+  animation: slideUp 0.15s ease-out 0s 1 normal both;
   background-color: white;
-  z-index: 1;
 }
 
 .register-container form .validate {
@@ -78,6 +115,7 @@
 }
 
 .register-container form div input {
+  z-index: 1;
   width: 100%;
   max-width: 16rem;
   height: 2.5em; /* em unit relative with closet parent which is font-size */

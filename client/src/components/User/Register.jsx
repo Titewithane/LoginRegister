@@ -101,7 +101,11 @@ function Register() {
               onFocus={() => setIsFocusUsername(true)}
               onBlur={() => setIsFocusUsername(false)}
             />
-            {isFocusUsername && <div className="supUsername">username</div>}
+            {!isFocusUsername ? (
+              <div className="supUsername">username</div>
+            ) : (
+              <div className="supUsernameFocus">username</div>
+            )}
           </div>
           <div className="password">
             <input
