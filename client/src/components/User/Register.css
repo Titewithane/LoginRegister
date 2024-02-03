@@ -1,3 +1,12 @@
+@keyframes slideUp {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-1.5px);
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,8 +14,8 @@
 .container {
   max-height: 100dvh;
   max-width: 100dvw;
-  height: 100dvh;
-  width: 100dvw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,12 +27,13 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+
   height: 100dvh;
 }
 
 .Layout {
-  position: absolute;
-  top: 0;
+  /* position: absolute;
+  top: 0; */
 }
 
 .register-container form {
@@ -32,7 +42,7 @@
   /* box-shadow: 7px 7px hsla(0, 0%, 0%, 0.2); */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding: 3rem 2rem;
-  background-color: hsla(0, 0%, 50%, 0.05);
+  /* background-color: hsla(0, 0%, 50%, 0.05); */
   overflow: hidden;
   margin: 0 auto;
 }
@@ -45,8 +55,26 @@
   margin: 1em;
 }
 
+.username {
+  position: relative;
+}
+
+.inputUsername {
+  width: 100%;
+}
+
+.supUsername {
+  position: absolute;
+  top: 0;
+  font-size: 1.2rem;
+  /* transform: translateY(-1.65em); */
+  animation: slideUP 1.5s ease-in-out 1s 1 normal both;
+  background-color: white;
+  z-index: 1;
+}
+
 .register-container form .validate {
-  margin-top: 1.5rem;
+  margin-top: 1.5em;
 }
 
 .register-container form div input {
@@ -56,8 +84,8 @@
   border: 1px solid gray;
   border-radius: 5px;
   font-size: 1.2rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 1rem;
+  /* padding-right: 0.5rem; */
 }
 
 .validate {
@@ -70,11 +98,9 @@
   color: white;
   border: 1px solid beige;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 1.2rem;
   width: 16rem;
-  height: 5dvh;
-
-  text-align: center;
+  height: 2.5em;
 }
 
 .btn {

@@ -14,7 +14,10 @@ function Register() {
   const [isValidated, setIsValidated] = useState(false);
   const [validateMsg, setValidateMsg] = useState("");
   const [isErr, setIsErr] = useState(false);
-  console.log(isErr);
+  const [isFocusUsername, setIsFocusUsername] = useState(false);
+  const [isFocusPassword, setIsFocusPassword] = useState(false);
+  const [isFocusRepassword, setIsFocusRepassword] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,7 +98,10 @@ function Register() {
               placeholder="username"
               onChange={handleChange}
               value={FormData.username}
+              onFocus={() => setIsFocusUsername(true)}
+              onBlur={() => setIsFocusUsername(false)}
             />
+            {isFocusUsername && <div className="supUsername">username</div>}
           </div>
           <div className="password">
             <input
@@ -117,9 +123,11 @@ function Register() {
               value={FormData.rePassword}
             />
           </div>
-          <div className="validate">
-            {count > 0 && <span>{validateMsg}</span>}
-          </div>
+          {count > 0 && (
+            <div className="validate">
+              <span>{validateMsg}</span>
+            </div>
+          )}
           <div className="btn">
             <button onClick={handleSubmit} type="submit">
               Register
