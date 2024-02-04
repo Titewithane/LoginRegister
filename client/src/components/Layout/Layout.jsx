@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Layout.css";
 
-function Layout({
-  isLogin = "false",
-  setIsLogin = (b) => {
-    console.log(b);
-  },
-}) {
+function Layout() {
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    localStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
+  }, []);
+
+  const Logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    setIsLogin(false);
+  };
+
   return (
     <div className="navbar">
       <div className="web-name">
@@ -22,7 +29,7 @@ function Layout({
         </Link>
         {isLogin ? (
           <Link to={""}>
-            <button onClick={() => setIsLogin(false)}>
+            <button onClick={Logout}>
               <span id="logout">logout</span>
             </button>
           </Link>

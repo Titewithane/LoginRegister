@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
-import "./Login.css";
+import { useState, useEffect, useRef } from "react";
 import { Form, useNavigate } from "react-router-dom";
+import Layout from "../Layout/Layout";
+import "./LoginRegister.css";
 import axios from "axios";
 import api from "../../utils/api";
 
@@ -10,6 +11,10 @@ export default function Login() {
     password: "",
   });
   const [isError, setIsError] = useState(false);
+  const [isFocusUsername, setIsFocusUsername] = useState(false);
+  const [isFocusPassword, setIsFocusPassword] = useState(false);
+  const usernameRef = useState(null);
+  const passwordRef = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (evt) => {
@@ -33,6 +38,12 @@ export default function Login() {
     }
   };
 
+  const handleDivFocus = (inputRef) => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   const handleChange = (evt) => {
     const changeField = evt.target.name;
     const newValue = evt.target.value;
@@ -42,36 +53,71 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="username">
-          <input
-            key="username"
-            type="text"
-            name="username"
-            id="username"
-            onChange={handleChange}
-            value={FormData.username}
-          />
-        </div>
-        <div className="password">
-          <input
-            key={"password"}
-            type="password"
-            name="password"
-            id="password"
-            onChange={handleChange}
-            value={FormData.password}
-          />
-        </div>
-        {isError && (
-          <div className="error">
-            <span>Something went wrong</span>
+    <div className="container">
+      <div className="Layout">
+        <Layout />
+      </div>
+      <div className="form-container">
+        <form>
+          <div className="label">
+            <h1>Login</h1>
           </div>
-        )}
-        <button>Login</button>
-      </form>
+          <div className="username">
+            <input
+              ref={usernameRef}
+              key="username"
+              type="text"
+              name="username"
+              id="username"
+              onChange={handleChange}
+              value={FormData.username}
+              onFocus={() => setIsFocusUsername(true)}
+              onBlur={() => !FormData.username && setIsFocusUsername(false)}
+            />
+            {!isFocusUsername ? (
+              <div
+                className="supText"
+                onClick={() => handleDivFocus(usernameRef)}
+              >
+                username
+              </div>
+            ) : (
+              <div className="supTextFocus">username</div>
+            )}
+          </div>
+          <div className="password">
+            <input
+              ref={passwordRef}
+              key={"password"}
+              type="password"
+              name="password"
+              id="password"
+              onChange={handleChange}
+              value={FormData.password}
+              onFocus={() => setIsFocusPassword(true)}
+              onBlur={() => !FormData.password && setIsFocusPassword(false)}
+            />
+            {!isFocusPassword ? (
+              <div
+                className="supText"
+                onClick={() => handleDivFocus(passwordRef)}
+              >
+                password
+              </div>
+            ) : (
+              <div className="supTextFocus">password</div>
+            )}
+          </div>
+          {isError && (
+            <div className="error">
+              <span>Something went wrong</span>
+            </div>
+          )}
+          <div className="btn">
+            <button onClick={handleSubmit}>Login</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

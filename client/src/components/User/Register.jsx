@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
-import "./Register.css";
+import "./LoginRegister.css";
 import axios from "axios";
 
 function Register() {
@@ -17,6 +17,9 @@ function Register() {
   const [isFocusUsername, setIsFocusUsername] = useState(false);
   const [isFocusPassword, setIsFocusPassword] = useState(false);
   const [isFocusRepassword, setIsFocusRepassword] = useState(false);
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const rePasswordRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -49,6 +52,12 @@ function Register() {
       return { ...curr, username: "", password: "", rePassword: "" };
     });
     setIsErr(true);
+  };
+
+  const handleDivFocus = (inputRef) => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const handleChange = (evt) => {
@@ -85,7 +94,7 @@ function Register() {
       <div className="Layout">
         <Layout />
       </div>
-      <div className="register-container">
+      <div className="form-container">
         <form>
           <div className="label">
             <h1>register</h1>
@@ -93,39 +102,68 @@ function Register() {
           {isErr && <span>Somethings went wrong</span>}
           <div className="username">
             <input
+              ref={usernameRef}
               type="text"
               name="username"
-              placeholder="username"
               onChange={handleChange}
               value={FormData.username}
               onFocus={() => setIsFocusUsername(true)}
-              onBlur={() => setIsFocusUsername(false)}
+              onBlur={() => !FormData.username && setIsFocusUsername(false)}
             />
             {!isFocusUsername ? (
-              <div className="supUsername">username</div>
+              <div
+                className="supText"
+                onClick={() => handleDivFocus(usernameRef)}
+              >
+                username
+              </div>
             ) : (
-              <div className="supUsernameFocus">username</div>
+              <div className="supTextFocus">username</div>
             )}
           </div>
           <div className="password">
             <input
+              ref={passwordRef}
               type="password"
               name="password"
               id=""
-              placeholder="password"
               onChange={handleChange}
               value={FormData.password}
+              onFocus={() => setIsFocusPassword(true)}
+              onBlur={() => !FormData.password && setIsFocusPassword(false)}
             />
+            {!isFocusPassword ? (
+              <div
+                className="supText"
+                onClick={() => handleDivFocus(passwordRef)}
+              >
+                password
+              </div>
+            ) : (
+              <div className="supTextFocus">password</div>
+            )}
           </div>
           <div className="rePassword">
             <input
+              ref={rePasswordRef}
               type="password"
               name="rePassword"
               id=""
-              placeholder="re-password"
               onChange={handleChange}
               value={FormData.rePassword}
+              onFocus={() => setIsFocusRepassword(true)}
+              onBlur={() => !FormData.rePassword && setIsFocusRepassword(false)}
             />
+            {!isFocusRepassword ? (
+              <div
+                className="supText"
+                onClick={() => handleDivFocus(rePasswordRef)}
+              >
+                re-password
+              </div>
+            ) : (
+              <div className="supTextFocus">re-password</div>
+            )}
           </div>
           {count > 0 && (
             <div className="validate">

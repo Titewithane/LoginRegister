@@ -50,7 +50,7 @@
   justify-content: center;
   align-items: center;
 }
-.register-container {
+.form-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,7 +65,7 @@
   top: 0; */
 }
 
-.register-container form {
+.form-container form {
   border: 1px solid black;
   border-radius: 5%;
   /* box-shadow: 7px 7px hsla(0, 0%, 0%, 0.2); */
@@ -76,15 +76,21 @@
   margin: 0 auto;
 }
 
-.register-container form .label {
+.form-container form .label {
   margin-bottom: 2rem;
 }
 
-.register-container form div {
+.form-container form div {
   margin: 1em;
 }
 
 .username {
+  position: relative;
+}
+.password {
+  position: relative;
+}
+.rePassword {
   position: relative;
 }
 
@@ -92,7 +98,7 @@
   width: 100%;
 }
 
-.supUsername {
+.supText {
   position: absolute;
   top: -0.35em;
   left: -0.1em;
@@ -101,7 +107,7 @@
   font-size: 1.2em;
 }
 
-.supUsernameFocus {
+.supTextFocus {
   position: absolute;
   top: 0;
   font-size: 1.2rem;
@@ -110,11 +116,11 @@
   background-color: white;
 }
 
-.register-container form .validate {
+.form-container form .validate {
   margin-top: 1.5em;
 }
 
-.register-container form div input {
+.form-container form div input {
   z-index: 1;
   width: 100%;
   max-width: 16rem;
@@ -136,7 +142,7 @@
   color: white;
   border: 1px solid beige;
   border-radius: 5px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   width: 16rem;
   height: 2.5em;
 }

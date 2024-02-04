@@ -7,20 +7,15 @@ import api from "../../utils/api";
 import React from "react";
 
 function Home() {
-  const [isLogin, setIsLogin] = useState(false);
-  useEffect(() => {
-    localStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
-  }, []);
-
   return (
-    <React.Fragment>
+    <div className="Home">
       <div className="Layout">
-        <Layout isLogin={isLogin} setIsLogin={setIsLogin} />
+        <Layout />
       </div>
       <div className="Home">
         <h2>Home</h2>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 
